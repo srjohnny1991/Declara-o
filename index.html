@@ -1,42 +1,102 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Pra Você ❤️</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para você 💖</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #ffe6f0;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding: 50px;
-      color: #b30059;
+      background: #ffe6f0;
+      margin: 0;
+      padding: 2rem;
+      overflow-x: hidden;
     }
-    .question {
-      font-size: 1.8em;
-      margin-bottom: 40px;
+
+    h1 {
+      font-size: 2rem;
+      color: #d63384;
     }
-    .btn {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      margin: 10px;
+
+    button {
+      font-size: 1.2rem;
+      margin: 1rem;
+      padding: 0.6rem 1.4rem;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      background-color: #ff69b4;
+      color: white;
+      transition: 0.3s;
     }
-    .yes { background-color: #ff66a3; color: white; }
-    .no { background-color: #cccccc; color: #333; }
+
+    button:hover {
+      background-color: #ff1493;
+    }
+
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: fall 5s linear infinite;
+    }
+
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+      }
+    }
+
+    .kiss {
+      font-size: 3rem;
+      animation: kiss 1s infinite alternate;
+    }
+
+    @keyframes kiss {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.3); }
+    }
   </style>
 </head>
 <body>
+  <!-- Música de fundo (YouTube) -->
+  <iframe width="0" height="0" src="https://www.youtube.com/embed/qiiyq2xrSI0?autoplay=1&loop=1&playlist=qiiyq2xrSI0" frameborder="0" allow="autoplay" allowfullscreen></iframe>
 
-  <h1>❤️ Oi, posso te fazer umas perguntinhas? ❤️</h1>
-  <div class="question" id="question"></div>
-  <button class="btn yes" onclick="answer(true)">Sim</button>
-  <button class="btn no" onclick="answer(false)">Não</button>
+  <h1 id="pergunta">Fiz um site para você! Você acredita?</h1>
+  <div>
+    <button onclick="responder(true)">Sim</button>
+    <button onclick="responder(false)">Não</button>
+  </div>
 
   <script>
-    const questions = [
-      "Fiz um site para você! Você acredita?",
+    const perguntas = [
       "Você está gostando de ficar comigo?",
       "Tem vontade de sair comigo?",
       "Te faço rir?",
@@ -46,48 +106,44 @@
       "Você acredita que eu tô com vontade de te beijar agora?"
     ];
 
-    let current = 0;
-    let allYes = true;
+    let indice = 0;
+    let recusou = false;
 
-    const qDiv = document.getElementById("question");
-    qDiv.innerText = questions[current];
-
-    function answer(response) {
-      if (!response) allYes = false;
-
-      current++;
-      if (current < questions.length) {
-        qDiv.innerText = questions[current];
+    function responder(sim) {
+      if (!sim) {
+        recusou = true;
+        document.getElementById("pergunta").textContent = "Tive tanto trabalho para fazer isso... não tem curiosidade de ver o desfecho?";
+        document.querySelectorAll("button")[0].onclick = mostrarDeclaracao;
+        document.querySelectorAll("button")[1].style.display = "none";
+        document.querySelectorAll("button")[0].textContent = "Tenho sim ❤️";
       } else {
-        if (allYes) {
-          showDeclaration();
+        if (indice < perguntas.length) {
+          document.getElementById("pergunta").textContent = perguntas[indice];
+          indice++;
         } else {
-          askCuriosity();
+          mostrarDeclaracao();
         }
       }
     }
 
-    function askCuriosity() {
-      qDiv.innerText = "Tive tanto trabalho pra fazer, não tem curiosidade para ver o desfecho?";
-      document.querySelector(".yes").onclick = showDeclaration;
-      document.querySelector(".no").onclick = () => {
-        qDiv.innerText = "Tudo bem... mas se mudar de ideia, tô aqui 💔";
-        document.querySelector(".yes").style.display = "none";
-        document.querySelector(".no").style.display = "none";
-      };
-    }
-
-    function showDeclaration() {
+    function mostrarDeclaracao() {
       document.body.innerHTML = `
-        <h1>💌 Declaração Final 💌</h1>
-        <p style="font-size: 1.5em; margin-top: 30px;">
-          Você tem sido a melhor coisa que aconteceu na minha vida e sou muito grato por estar sempre ao meu lado!<br><br>
-          Espero que seja pra sempre! 💖
-          beijos johnny
-        </p>
+        <h1 style="color: #ff1493;">Você tem sido a melhor coisa que aconteceu na minha vida 💖<br>Sou muito grato por estar sempre ao meu lado!<br>Espero que seja pra sempre! 💍</h1>
+        <!-- FOTO DO CASAL AQUI -->
+        <img src="NOME_DA_SUA_FOTO.jpg" style="width:80%; border-radius: 15px; margin: 1rem 0;" />
+        <div class="kiss">💋</div>
       `;
     }
-  </script>
 
+    // Corações caindo
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.animationDuration = 3 + Math.random() * 3 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }, 300);
+  </script>
 </body>
 </html>
