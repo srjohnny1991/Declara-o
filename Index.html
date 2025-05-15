@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Pra Você ❤️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffe6f0;
+      text-align: center;
+      padding: 50px;
+      color: #b30059;
+    }
+    .question {
+      font-size: 1.8em;
+      margin-bottom: 40px;
+    }
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .yes { background-color: #ff66a3; color: white; }
+    .no { background-color: #cccccc; color: #333; }
+  </style>
+</head>
+<body>
+
+  <h1>❤️ Oi, posso te fazer umas perguntinhas? ❤️</h1>
+  <div class="question" id="question"></div>
+  <button class="btn yes" onclick="answer(true)">Sim</button>
+  <button class="btn no" onclick="answer(false)">Não</button>
+
+  <script>
+    const questions = [
+      "Fiz um site para você! Você acredita?",
+      "Você está gostando de ficar comigo?",
+      "Tem vontade de sair comigo?",
+      "Te faço rir?",
+      "De alguma forma torno seus dias melhores?",
+      "Você me ama?",
+      "Já sorriu respondendo alguma pergunta? rs",
+      "Você acredita que eu tô com vontade de te beijar agora?"
+    ];
+
+    let current = 0;
+    let allYes = true;
+
+    const qDiv = document.getElementById("question");
+    qDiv.innerText = questions[current];
+
+    function answer(response) {
+      if (!response) allYes = false;
+
+      current++;
+      if (current < questions.length) {
+        qDiv.innerText = questions[current];
+      } else {
+        if (allYes) {
+          showDeclaration();
+        } else {
+          askCuriosity();
+        }
+      }
+    }
+
+    function askCuriosity() {
+      qDiv.innerText = "Tive tanto trabalho pra fazer, não tem curiosidade para ver o desfecho?";
+      document.querySelector(".yes").onclick = showDeclaration;
+      document.querySelector(".no").onclick = () => {
+        qDiv.innerText = "Tudo bem... mas se mudar de ideia, tô aqui 💔";
+        document.querySelector(".yes").style.display = "none";
+        document.querySelector(".no").style.display = "none";
+      };
+    }
+
+    function showDeclaration() {
+      document.body.innerHTML = `
+        <h1>💌 Declaração Final 💌</h1>
+        <p style="font-size: 1.5em; margin-top: 30px;">
+          Você tem sido a melhor coisa que aconteceu na minha vida e sou muito grato por estar sempre ao meu lado!<br><br>
+          Espero que seja pra sempre! 💖
+        </p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
